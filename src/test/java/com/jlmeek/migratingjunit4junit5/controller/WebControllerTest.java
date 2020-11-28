@@ -1,7 +1,8 @@
-package com.jlmeek.migratingjunit4junit5;
+package com.jlmeek.migratingjunit4junit5.controller;
 
 import static org.hamcrest.Matchers.containsString;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.jlmeek.migratingjunit4junit5.controller.WebController;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = WebController.class)
@@ -36,11 +35,29 @@ public class WebControllerTest {
       .andExpect(content().string(containsString("Hello JUnit Testing!")));
   }
 
-  @Test(expected = Exception.class)
-  public void shouldThrowExecptionWhenHittingDefaultWithAPUT() {
-    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/").contentType(MediaType.APPLICATION_JSON).accept(MediaType.ALL_VALUE).content("123");
+  @Test
+  public void shouldThrowExecptionWhenHittingDefaultWithAPUT() throws Exception {
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/")
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.ALL_VALUE)
+    .content("123");
     
-    this.mockMvc.perform(builder);
+    this.mockMvc
+        .perform(builder)
+        .andDo(print())
+        .andExpect(status().is(405))
+        .andExpect(status().reason(containsString("Request method 'PUT' not supported")));
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenHittingIdEndpointWithALetter() throws Exception {
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/a");
+    
+    this.mockMvc
+        .perform(builder)
+        .andDo(print())
+        .andExpect(status().is(400))
+        .andExpect( result -> Assert.assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException));
 
   }
 
