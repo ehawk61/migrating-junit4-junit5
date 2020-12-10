@@ -20,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = WebController.class)
-public class WebControllerTest {
+@WebMvcTest(value = CoffeeController.class)
+public class CoffeeControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
