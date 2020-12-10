@@ -15,6 +15,7 @@ public class Coffee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long coffeeId; 
+    
     private String coffeeName; 
     private String coffeeType; 
     private double coffeeRating; 
