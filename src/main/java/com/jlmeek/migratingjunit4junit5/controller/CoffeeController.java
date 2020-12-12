@@ -1,16 +1,25 @@
 package com.jlmeek.migratingjunit4junit5.controller;
 
-import org.springframework.stereotype.Controller;
+import com.jlmeek.migratingjunit4junit5.model.Coffee;
+import com.jlmeek.migratingjunit4junit5.service.CoffeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class CoffeeController {
 
+    protected CoffeeService coffeeService;
+
+    public CoffeeController(CoffeeService coffeeService){
+        this.coffeeService = coffeeService;
+    }
+
     @GetMapping("/")
-    public @ResponseBody String greeting(){
-        return "Hello JUnit Testing!"; 
+    public List<Coffee> greeting(){
+        return coffeeService.getAllCoffees();
     }
 
     @GetMapping("/{id}")

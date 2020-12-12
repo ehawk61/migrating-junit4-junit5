@@ -1,23 +1,20 @@
 package com.jlmeek.migratingjunit4junit5.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import com.jlmeek.migratingjunit4junit5.model.Coffee;
 import com.jlmeek.migratingjunit4junit5.repository.CoffeeRepo;
-
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoffeeServiceTest {
@@ -55,7 +52,7 @@ public class CoffeeServiceTest {
 
     @Test
     public void shouldReturnACoffeeWithHighestRating(){
-        when(coffeeRepo.findByCoffeesOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
+        when(coffeeRepo.findAllOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
         Coffee pulledRatedCoffee = coffeeService.getHighestRatedCoffee();
         assertEquals(pulledRatedCoffee.getCoffeeName(), "Cafe Ladero"); 
     }
