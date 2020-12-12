@@ -20,7 +20,7 @@ public class CoffeeService {
     }
 
     public Coffee getHighestRatedCoffee(){
-        return coffeeRepo.findAllOrderByCoffeeRatingDesc().get(0);
+        return coffeeRepo.findAllByOrderByCoffeeRatingDesc().get(0);
     }
 
     public Coffee getCoffeeById(Long id){

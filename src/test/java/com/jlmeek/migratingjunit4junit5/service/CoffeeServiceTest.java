@@ -52,7 +52,7 @@ public class CoffeeServiceTest {
 
     @Test
     public void shouldReturnACoffeeWithHighestRating(){
-        when(coffeeRepo.findAllOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
+        when(coffeeRepo.findAllByOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
         Coffee pulledRatedCoffee = coffeeService.getHighestRatedCoffee();
         assertEquals(pulledRatedCoffee.getCoffeeName(), "Cafe Ladero"); 
     }

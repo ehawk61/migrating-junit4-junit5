@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CoffeeRepo extends PagingAndSortingRepository<Coffee, Long>{
-    List<Coffee> findAllOrderByCoffeeRatingDesc();
+    List<Coffee> findAllByOrderByCoffeeRatingDesc();
 }
