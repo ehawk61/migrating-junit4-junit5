@@ -1,6 +1,7 @@
 package com.jlmeek.migratingjunit4junit5.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Coffee {
     
     @Id
@@ -19,8 +21,6 @@ public class Coffee {
     private String coffeeName; 
     private String coffeeType; 
     private double coffeeRating; 
-    
-    protected Coffee(){}
 
     public Coffee(String coffeeName, String coffeeType, double coffeeRating){
         this.coffeeName = coffeeName; 
