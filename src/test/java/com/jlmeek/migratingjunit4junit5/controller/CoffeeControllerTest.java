@@ -29,7 +29,7 @@ public class CoffeeControllerTest {
   private MockMvc mockMvc;
 
   @Test
-  public void shouldReturnHelloJunitTestingWhenHittingDefaultWithAGET() throws Exception{
+  public void shouldReturnAllCoffeesWhenHittingDefaultResourceWithGET() throws Exception{
       this.mockMvc
               .perform(get("/"))
               .andDo(print())
@@ -40,7 +40,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  public void shouldReturnASingleCoffeeWhenHittingWithAGETResource() throws Exception {
+  public void shouldReturnASingleCoffeeWhenHittingIdResourceWithGET() throws Exception {
     this.mockMvc
             .perform(get("/2"))
             .andDo(print())
@@ -63,7 +63,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  public void shouldThrowExecptionWhenHittingDefaultWithAPUT() throws Exception {
+  public void shouldThrowExecptionWhenHittingDefaultWithPUT() throws Exception {
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/")
     .contentType(MediaType.APPLICATION_JSON)
     .accept(MediaType.ALL_VALUE)
