@@ -31,12 +31,35 @@ public class CoffeeControllerTest {
   @Test
   public void shouldReturnHelloJunitTestingWhenHittingDefaultWithAGET() throws Exception{
       this.mockMvc
-      .perform(get("/"))
-      .andDo(print())
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.[0].coffeeName", containsString("Charbucks Burnt Roast")))
-      .andExpect(jsonPath("$.[0].coffeeType", containsString("Dark Roast")))
-      .andExpect(jsonPath("$.[0].coffeeRating", comparesEqualTo(2.0)));
+              .perform(get("/"))
+              .andDo(print())
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$.[0].coffeeName", containsString("Charbucks Burnt Roast")))
+              .andExpect(jsonPath("$.[0].coffeeType", containsString("Dark Roast")))
+              .andExpect(jsonPath("$.[0].coffeeRating", comparesEqualTo(2.0)));
+  }
+
+  @Test
+  public void shouldReturnASingleCoffeeWhenHittingWithAGETResource() throws Exception {
+    this.mockMvc
+            .perform(get("/2"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.coffeeId", comparesEqualTo(2)))
+            .andExpect(jsonPath("$.coffeeName", containsString("Blumpkin Dounts Dark Roast")))
+            .andExpect(jsonPath("$.coffeeType", containsString("Dark Roast")))
+            .andExpect(jsonPath("$.coffeeRating", comparesEqualTo(4.0)));
+  }
+
+  @Test
+  public void shouldReturnASingleCoffeeWhenHittingWithBestCoffeeResourceWithGET() throws Exception {
+    this.mockMvc
+            .perform(get("/bestCoffee"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.coffeeName", containsString("Cafe Ladero")))
+            .andExpect(jsonPath("$.coffeeType", containsString("Medium Roast")))
+            .andExpect(jsonPath("$.coffeeRating", comparesEqualTo(5.0)));
   }
 
   @Test
@@ -47,10 +70,9 @@ public class CoffeeControllerTest {
     .content("123");
     
     this.mockMvc
-        .perform(builder)
-        .andDo(print())
-        .andExpect(status().is(405))
-        .andExpect(status().reason(containsString("Request method 'PUT' not supported")));
+            .perform(builder).andDo(print())
+            .andExpect(status().is(405))
+            .andExpect(status().reason(containsString("Request method 'PUT' not supported")));
   }
 
   @Test
@@ -58,10 +80,10 @@ public class CoffeeControllerTest {
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/a");
     
     this.mockMvc
-        .perform(builder)
-        .andDo(print())
-        .andExpect(status().is(400))
-        .andExpect( result -> Assert.assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException));
+            .perform(builder)
+            .andDo(print())
+            .andExpect(status().is(400))
+            .andExpect( result -> Assert.assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException));
 
   }
 

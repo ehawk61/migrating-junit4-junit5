@@ -18,12 +18,13 @@ public class CoffeeController {
     }
 
     @GetMapping("/")
-    public List<Coffee> greeting(){
-        return coffeeService.getAllCoffees();
-    }
+    public List<Coffee> getAllCoffees(){ return coffeeService.getAllCoffees(); }
 
     @GetMapping("/{id}")
-    public String retriveGreeting(@PathVariable long id){
-        return String.format("Hello JUnit #%s", id);
+    public Coffee getACoffeeById(@PathVariable long id){
+        return coffeeService.getCoffeeById(id);
     }
+
+    @GetMapping("/bestCoffee")
+    public Coffee getBestRatedCoffee(){ return coffeeService.getHighestRatedCoffee();}
 }
