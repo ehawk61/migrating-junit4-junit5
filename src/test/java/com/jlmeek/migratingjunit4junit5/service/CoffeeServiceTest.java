@@ -2,21 +2,24 @@ package com.jlmeek.migratingjunit4junit5.service;
 
 import com.jlmeek.migratingjunit4junit5.model.Coffee;
 import com.jlmeek.migratingjunit4junit5.repository.CoffeeRepo;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CoffeeServiceTest {
 
     @Mock
@@ -25,11 +28,11 @@ public class CoffeeServiceTest {
     @InjectMocks
     CoffeeService coffeeService; 
 
-    List<Coffee> mockedCoffees; 
-    List<Coffee> mockedCoffeesSortedAscending; 
+    static List<Coffee> mockedCoffees; 
+    static List<Coffee> mockedCoffeesSortedAscending; 
 
-    @Before
-    public void setup(){
+    @BeforeAll
+    public static void setup(){
         mockedCoffees = Arrays.asList(
             new Coffee("Charbucks Burnt Roast","Dark Roast",2.0), 
             new Coffee("Blumpkin' Dounts Dark Roast", "Dark Roast", 4.0), 
@@ -41,23 +44,24 @@ public class CoffeeServiceTest {
         );
     }    
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void shouldReturnAllCoffees(){
       
         when(coffeeRepo.findAll()).thenReturn(mockedCoffees);
 
         List<Coffee> pulledCoffees = coffeeService.getAllCoffees();
-        assertEquals(pulledCoffees.size(),mockedCoffees.size()); 
+        assertEquals(mockedCoffees.size(), pulledCoffees.size());
+        
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void shouldReturnACoffeeWithHighestRating(){
         when(coffeeRepo.findAllByOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
         Coffee pulledRatedCoffee = coffeeService.getHighestRatedCoffee();
-        assertEquals(pulledRatedCoffee.getCoffeeName(), "Cafe Ladero"); 
+        assertEquals("Cafe Ladero",pulledRatedCoffee.getCoffeeName()); 
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void shouldReturnASingleCoffeeById(){
 
         when(coffeeRepo.findById(1L)).thenReturn(Optional.of(mockedCoffees.get(0)));
@@ -69,11 +73,12 @@ public class CoffeeServiceTest {
         assertEquals(pulledSingleCoffee.getCoffeeRating(), 2.0, 0.0); 
     }
 
-    @Test(expected = Exception.class)
+    @org.junit.jupiter.api.Test
     public void shouldThrowAnExceptionWhenPassedAnUnknownCoffeeId(){
         when(coffeeRepo.findById(4L)).thenReturn(Optional.empty());
 
-        Coffee pulledUnkownCoffee = coffeeService.getCoffeeById(4L);
+        assertThrows(Exception.class, () -> coffeeService.getCoffeeById(4L));
+        //Coffee pulledUnkownCoffee = coffeeService.getCoffeeById(4L);
         
     }
 
