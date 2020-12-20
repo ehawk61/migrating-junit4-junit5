@@ -2,13 +2,10 @@ package com.jlmeek.migratingjunit4junit5.service;
 
 import com.jlmeek.migratingjunit4junit5.model.Coffee;
 import com.jlmeek.migratingjunit4junit5.repository.CoffeeRepo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
