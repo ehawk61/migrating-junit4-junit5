@@ -29,7 +29,7 @@ public class CoffeeControllerTest {
   private MockMvc mockMvc;
 
   @Test
-  @DisplayName("GET / - 200 ok, returns all the coffees")
+  @DisplayName("Returns all the coffees - GET / - 200 OK")
   public void shouldReturnAllCoffeesWhenHittingDefaultResourceWithGET() throws Exception{
       this.mockMvc
               .perform(get("/"))
@@ -42,7 +42,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  @DisplayName("GET /2 - 200 OK, returns coffee listed by id 2")
+  @DisplayName("Returns coffee listed by id 2 - GET /2 - 200 OK")
   public void shouldReturnASingleCoffeeWhenHittingIdResourceWithGET() throws Exception {
       this.mockMvc
               .perform(get("/2"))
@@ -55,7 +55,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  @DisplayName("GET /bestCoffee - 200 OK, returns highest rated coffee")
+  @DisplayName("Returns highest rated coffee - GET /bestCoffee - 200 OK")
   public void shouldReturnASingleCoffeeWhenHittingWithBestCoffeeResourceWithGET() throws Exception {
       this.mockMvc
               .perform(get("/bestCoffee"))
@@ -67,7 +67,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  @DisplayName("PUT on / - 405 Method Not Allowed")
+  @DisplayName("Tries to do a PUT on / Resourse - 405 Method Not Allowed")
   public void shouldThrowExecptionWhenHittingDefaultWithPUT() throws Exception {
       MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/")
         .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +81,7 @@ public class CoffeeControllerTest {
   }
 
   @Test
-  @DisplayName("GET /a - 400 Bad Request & Method Argument Type Mismatch")
+  @DisplayName("Tried to do a GET /a - 400 Bad Request & Method Argument Type Mismatch")
   public void shouldThrowExceptionWhenHittingIdEndpointWithALetter() throws Exception {
       MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/a");
     
