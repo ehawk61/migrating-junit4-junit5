@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -66,17 +68,20 @@ public class CoffeeServiceTest {
         assertEquals("Cafe Ladero",pulledRatedCoffee.getCoffeeName()); 
     }
 
-    @Test
+    
     @DisplayName("Returns a single coffee by a coffee's ID")
-    public void shouldReturnASingleCoffeeById(){
+    @ParameterizedTest    
+    @CsvFileSource(resources = "/test-data.csv")
+    public void shouldReturnASingleCoffeeById(int index, String id, String expectedCoffeeName, String expectedCoffeeType, double expectedCoffeeRating){
+        long longId = Long.parseLong(id);
 
-        when(coffeeRepo.findById(1L)).thenReturn(Optional.of(mockedCoffees.get(0)));
+        when(coffeeRepo.findById(longId)).thenReturn(Optional.of(mockedCoffees.get(index)));
 
-        Coffee pulledSingleCoffee = coffeeService.getCoffeeById(1L);
+        Coffee pulledSingleCoffee = coffeeService.getCoffeeById(longId);
         
-        assertEquals(pulledSingleCoffee.getCoffeeName(), "Charbucks Burnt Roast"); 
-        assertEquals(pulledSingleCoffee.getCoffeeType(), "Dark Roast"); 
-        assertEquals(pulledSingleCoffee.getCoffeeRating(), 2.0, 0.0); 
+        assertEquals(pulledSingleCoffee.getCoffeeName(), expectedCoffeeName); 
+        assertEquals(pulledSingleCoffee.getCoffeeType(), expectedCoffeeType); 
+        assertEquals(pulledSingleCoffee.getCoffeeRating(), expectedCoffeeRating, 0.0); 
     }
 
     @Test
