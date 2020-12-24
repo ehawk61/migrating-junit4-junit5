@@ -3,6 +3,7 @@ package com.jlmeek.migratingjunit4junit5.service;
 import com.jlmeek.migratingjunit4junit5.model.Coffee;
 import com.jlmeek.migratingjunit4junit5.repository.CoffeeRepo;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,6 +45,7 @@ public class CoffeeServiceTest {
     }    
 
     @Test
+    @DisplayName("Return All Coffees from findAll method")
     public void shouldReturnAllCoffees(){
       
         when(coffeeRepo.findAll()).thenReturn(mockedCoffees);
@@ -54,6 +57,7 @@ public class CoffeeServiceTest {
     }
 
     @Test
+    @DisplayName("Return the highest rated coffee")
     public void shouldReturnACoffeeWithHighestRating(){
         when(coffeeRepo.findAllByOrderByCoffeeRatingDesc()).thenReturn(mockedCoffeesSortedAscending);
         
@@ -63,6 +67,7 @@ public class CoffeeServiceTest {
     }
 
     @Test
+    @DisplayName("Returns a single coffee by a coffee's ID")
     public void shouldReturnASingleCoffeeById(){
 
         when(coffeeRepo.findById(1L)).thenReturn(Optional.of(mockedCoffees.get(0)));
@@ -75,10 +80,11 @@ public class CoffeeServiceTest {
     }
 
     @Test
+    @DisplayName("Throws a NoSuchElementException when passed a coffee's ID that's not in the database")
     public void shouldThrowAnExceptionWhenPassedAnUnknownCoffeeId(){
         when(coffeeRepo.findById(4L)).thenReturn(Optional.empty());
 
-        assertThrows(Exception.class, () -> coffeeService.getCoffeeById(4L));
+        assertThrows(NoSuchElementException.class, () -> coffeeService.getCoffeeById(4L));
     }
 
 
