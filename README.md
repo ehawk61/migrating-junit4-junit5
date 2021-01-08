@@ -26,7 +26,7 @@ git checkout junit4-startpoint
 ### Building JUnit 5
 * Checkout the git tag 
 ```bash 
-git checkout <in-progress>
+git checkout junit5-complete
 ```
 * Run the tests as a sanity check 
 ```bash
